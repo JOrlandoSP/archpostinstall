@@ -1,0 +1,76 @@
+#!/bin/bash
+
+tipo_instalacao=""
+DEST_DIR="$HOME/.local/src"
+
+repos=(
+	"http://git.suckless.org/dwm"
+	"http://git.suckless.org/st"
+	"http://git.suckless.org/dmenu"
+	"http://git.suckless.org/slstatus"
+)
+
+
+clonagem_repos() {
+	for repo in "${repos[@]}"; do
+	repo_name=$(basename -s .git "$repo")
+	git clone "$repo" "$DEST_DIR/$repo_name"
+
+	cd "$DEST_DIR/$repo_name" || { echo "Falha ao acessar o diretório $repo_name"; exit 1; }
+	sudo make clean install || { echo "Flaha ao installar o $repo_name"; exit 1; }
+	cd - > /dev/null
+done
+}
+
+
+ler_entrada_ins() {
+
+
+while true; do
+
+	read -p "Que tipo de instalação deseja realizar? / (Digite C para Customizar e P para padrão)" tipo_instalacao
+
+if [ $tipo_instalacao == c ]; then
+	echo "Instalação customizada"
+	criar_dir
+	instalar_dep
+	clonagem_repos
+	cop_conf
+	selec_greeter
+	habilitar_iniciar_dm
+	break
+elif [ $tipo_instalacao == p ]; then
+	echo "Instalação padrão"
+	break
+else	
+	echo "Tipo inválido"
+fi
+
+done
+}
+
+criar_dir() {
+	mkdir -p $HOME/.local/{src,bin,share}
+	mkdir -p /usr/share/xsessions/
+}
+
+instalar_dep() {
+	sudo pacman -S libxinerama libxft lightdm-gtk-greeter
+}
+
+cop_conf() {
+	cp dwm.desktop /usr/share/xsessions/ 
+}
+
+selec_greeter() {
+	echo "greeter-session=lightdm-gtk-greeter" | sudo tee -a /etc/lightdm/lightdm.conf
+}
+
+habilitar_iniciar_dm() {
+	sudo systemctl enable lightdm
+}
+
+
+
+ler_entrada_ins
+
