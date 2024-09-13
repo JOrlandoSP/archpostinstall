@@ -4,4 +4,4 @@ Name=dwm
 Comment=Dynamic Window Manager
 Exec=dwm
 Icon=dwm
-Type=dwm
+Type=Xsession
