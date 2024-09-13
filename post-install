@@ -30,7 +30,7 @@ while true; do
 
 	read -p "Que tipo de instalação deseja realizar? / (Digite C para Customizar e P para padrão)" tipo_instalacao
 
-if [ $tipo_instalacao == c ]; then
+if [[ "${tipo_instalacao,,}" == "c" ]]; then
 	echo "Instalação customizada"
 	criar_dir
 	instalar_dep
