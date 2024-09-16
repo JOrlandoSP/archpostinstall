@@ -2,6 +2,8 @@
 
 tipo_instalacao=""
 DEST_DIR="$HOME/.local/src"
+PACOTES_BASE="libxft libxinerama lightdmg-gtk-greeter"
+PACOTES_EXTRA="firefox mpv pipewire"
 
 repos=(
 	"http://git.suckless.org/dwm"
@@ -10,6 +12,31 @@ repos=(
 	"http://git.suckless.org/slstatus"
 )
 
+ler_entrada_ins() {
+    while true; do
+        read -p "Que tipo de instalação deseja realizar? / (Digite C para Customizar e P para padrão)" tipo_instalacao
+        if [[ "${tipo_instalacao,,}" == "c" ]]; then
+            echo "Instalação customizada"
+            criar_dir
+            instalar_pacotes
+            clonagem_repos
+            cop_conf
+            selec_greeter
+            habilitar_iniciar_dm
+            break
+        elif [ $tipo_instalacao == p ]; then
+            echo "Instalação padrão"
+            break
+        else	
+            echo "Tipo inválido"
+        fi
+    done
+}
+
+instalar_pacotes(){
+    echo "Instalando pacotes"
+    sudo pacman -S --noconfirm $PACOTES_BASE
+}
 
 clonagem_repos() {
 	for repo in "${repos[@]}"; do
@@ -23,41 +50,13 @@ done
 }
 
 
-ler_entrada_ins() {
-
-
-while true; do
-
-	read -p "Que tipo de instalação deseja realizar? / (Digite C para Customizar e P para padrão)" tipo_instalacao
-
-if [[ "${tipo_instalacao,,}" == "c" ]]; then
-	echo "Instalação customizada"
-	criar_dir
-	instalar_dep
-	clonagem_repos
-	cop_conf
-	selec_greeter
-	habilitar_iniciar_dm
-	break
-elif [ $tipo_instalacao == p ]; then
-	echo "Instalação padrão"
-	break
-else	
-	echo "Tipo inválido"
-fi
-
-done
-}
 
 criar_dir() {
 	mkdir -p $HOME/.local/{src,bin,share}
 	mkdir -p /usr/share/xsessions/
 }
 
-instalar_dep() {
-	sudo pacman -S libxinerama libxft lightdm-gtk-greeter
-}
-
+u
 cop_conf() {
 	cp dwm.desktop /usr/share/xsessions/ 
 }
