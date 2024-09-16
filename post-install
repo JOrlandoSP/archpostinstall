@@ -2,7 +2,7 @@
 
 tipo_instalacao=""
 DEST_DIR="$HOME/.local/src"
-PACOTES_BASE="libxft libxinerama lightdmg-gtk-greeter"
+PACOTES_BASE="libxft libxinerama lightdm-gtk-greeter"
 PACOTES_EXTRA="firefox mpv pipewire"
 
 repos=(
@@ -34,6 +34,8 @@ ler_entrada_ins() {
 }
 
 instalar_pacotes(){
+    echo "Atualizando pacotes"
+    sudo pacman -Suy
     echo "Instalando pacotes"
     sudo pacman -S --noconfirm $PACOTES_BASE
 }
@@ -53,12 +55,12 @@ done
 
 criar_dir() {
 	mkdir -p $HOME/.local/{src,bin,share}
-	mkdir -p /usr/share/xsessions/
+	sudo mkdir -p /usr/share/xsessions/
 }
 
 u
 cop_conf() {
-	cp dwm.desktop /usr/share/xsessions/ 
+	sudo cp dwm.desktop /usr/share/xsessions/ 
 }
 
 selec_greeter() {
