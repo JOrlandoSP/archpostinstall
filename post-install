@@ -3,7 +3,7 @@
 tipo_instalacao=""
 DEST_DIR="$HOME/.local/src"
 PACOTES_BASE="libxft libxinerama lightdm-gtk-greeter"
-PACOTES_EXTRA="firefox mpv pipewire"
+PACOTES_EXTRA="ttf-jetbrains-mono noto-fonts-emoji pipewire brightnessctl picom xwallpaper scrot xclip"
 
 REPOS=(
 	"http://git.suckless.org/dwm"
@@ -27,8 +27,9 @@ ler_entrada_ins() {
             echo "Instalação customizada"
             criar_dir
             instalar_pacotes "$PACOTES_BASE $PACOTES_EXTRA"
-            clonagem_repos "$REPOS_CUSTOM"
+            clonagem_repos "${REPOS_CUSTOM[@]}"
             cop_conf
+            cop_extra
             selec_greeter
             habilitar_iniciar_dm
             break
@@ -36,7 +37,7 @@ ler_entrada_ins() {
             echo "Instalação padrão"
             criar_dir
             instalar_pacotes "$PACOTES_BASE"
-            clonagem_repos "$REPOS"
+            clonagem_repos "${REPOS[@]}"
             cop_conf
             selec_greeter
             habilitar_iniciar_dm
@@ -67,7 +68,12 @@ clonagem_repos() {
 done
 }
 
-
+instalar_yay() {
+    mkdir -p $HOME/.local/src/yay
+    git clone https://aur.archlinux.org/yay.git
+    cd yay
+    makepkg -si
+}
 
 criar_dir() {
 	mkdir -p $HOME/.local/{src,bin,share}
@@ -77,6 +83,14 @@ criar_dir() {
 u
 cop_conf() {
 	sudo cp dwm.desktop /usr/share/xsessions/ 
+}
+
+cop_extra() {
+    cp styled $HOME/.local.bin/
+    cp picom.conf $HOME/.config/
+    cp .xbindkeys $HOME/
+    cp .xprofile $HOME/
+    cp -R Wallpapers $HOME/
 }
 
 selec_greeter() {

@@ -1,0 +1,7 @@
+#!/bin/bash 
+style=$(find ~/Wallpapers/ -type f -name "*.jpg" -o -name "*.png" | shuf -n 1)
+xwallpaper --zoom $style
+wal -c
+wal -i $style
+xdotool key super+F5
+
