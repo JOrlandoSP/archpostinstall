@@ -5,12 +5,20 @@ DEST_DIR="$HOME/.local/src"
 PACOTES_BASE="libxft libxinerama lightdm-gtk-greeter"
 PACOTES_EXTRA="firefox mpv pipewire"
 
-repos=(
+REPOS=(
 	"http://git.suckless.org/dwm"
 	"http://git.suckless.org/st"
 	"http://git.suckless.org/dmenu"
 	"http://git.suckless.org/slstatus"
 )
+
+REPOS_CUSTOM=(
+    "https://github.com/jorlandosp/dwm"
+    "https://github.com/jorlandosp/st"
+    "http://git.suckless.org/dmenu"
+    "http://git.suckless.org/scroll"
+    "https://github.com/jorlandosp/slstatus"
+    )
 
 ler_entrada_ins() {
     while true; do
@@ -18,8 +26,8 @@ ler_entrada_ins() {
         if [[ "${tipo_instalacao,,}" == "c" ]]; then
             echo "Instalação customizada"
             criar_dir
-            instalar_pacotes "$PACOTES_BASE"
-            clonagem_repos
+            instalar_pacotes "$PACOTES_BASE $PACOTES_EXTRA"
+            clonagem_repos "$REPOS_CUSTOM"
             cop_conf
             selec_greeter
             habilitar_iniciar_dm
@@ -27,8 +35,8 @@ ler_entrada_ins() {
         elif [ $tipo_instalacao == p ]; then
             echo "Instalação padrão"
             criar_dir
-            instalar_pacotes "$PACOTES_BASE $PACOTES_EXTRA"
-            clonagem_repos
+            instalar_pacotes "$PACOTES_BASE"
+            clonagem_repos "$REPOS"
             cop_conf
             selec_greeter
             habilitar_iniciar_dm
@@ -48,7 +56,8 @@ instalar_pacotes(){
 }
 
 clonagem_repos() {
-	for repo in "${repos[@]}"; do
+    repo_usar=("$@")
+	for repo in "${repo_usar[@]}"; do
 	repo_name=$(basename -s .git "$repo")
 	git clone "$repo" "$DEST_DIR/$repo_name"
 
@@ -76,6 +85,7 @@ selec_greeter() {
 
 habilitar_iniciar_dm() {
 	sudo systemctl enable lightdm
+    sudo systemctl start lightdm
 }
 
 
