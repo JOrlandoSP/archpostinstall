@@ -1,0 +1,6 @@
+#!/bin/sh
+xbindkeys &
+setxkbmap us -variant intl&
+picom --config ~/.config/picom.conf &
+~/.local/src/slstatus/slstatus &
+~/.local/bin/styled

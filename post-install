@@ -3,7 +3,7 @@
 tipo_instalacao=""
 DEST_DIR="$HOME/.local/src"
 PACOTES_BASE="libxft libxinerama lightdm-gtk-greeter"
-PACOTES_EXTRA="ttf-jetbrains-mono noto-fonts-emoji pipewire brightnessctl picom xwallpaper scrot xclip"
+PACOTES_EXTRA="ttf-jetbrains-mono noto-fonts-emoji pipewire brightnessctl picom xwallpaper scrot xclip xdotool"
 
 REPOS=(
 	"http://git.suckless.org/dwm"
@@ -86,10 +86,10 @@ cop_conf() {
 }
 
 cop_extra() {
-    cp styled $HOME/.local.bin/
+    cp styled $HOME/.local/bin/
     cp picom.conf $HOME/.config/
-    cp .xbindkeys $HOME/
-    cp .xprofile $HOME/
+    cp xbindkeys $HOME/.xbindkeys
+    cp xprofile $HOME/.xprofile
     cp -R Wallpapers $HOME/
 }
 
