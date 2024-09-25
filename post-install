@@ -18,7 +18,7 @@ ler_entrada_ins() {
         if [[ "${tipo_instalacao,,}" == "c" ]]; then
             echo "Instalação customizada"
             criar_dir
-            instalar_pacotes "PACOTES_BASE"
+            instalar_pacotes "$PACOTES_BASE"
             clonagem_repos
             cop_conf
             selec_greeter
@@ -27,7 +27,7 @@ ler_entrada_ins() {
         elif [ $tipo_instalacao == p ]; then
             echo "Instalação padrão"
             criar_dir
-            instalar_pacotes "PACOTES_BASE PACOTES_EXTRA"
+            instalar_pacotes "$PACOTES_BASE $PACOTES_EXTRA"
             clonagem_repos
             cop_conf
             selec_greeter
