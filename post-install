@@ -69,9 +69,10 @@ done
 }
 
 instalar_yay() {
-    mkdir -p $HOME/.local/src/yay
-    git clone https://aur.archlinux.org/yay.git
-    cd yay
+    dest_dir="$HOME/.local/src/yay"
+    mkdir -p "$dest_dir"
+    git clone https://aur.archlinux.org/yay.git "$dest_dir"
+    cd "$dest_dir" || exit 1
     makepkg -si
 }
 
@@ -86,6 +87,7 @@ cop_conf() {
 }
 
 cop_extra() {
+    mkdir -p $HOMW/.config
     cp styled $HOME/.local/bin/
     cp picom.conf $HOME/.config/
     cp xbindkeys $HOME/.xbindkeys
