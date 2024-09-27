@@ -31,6 +31,8 @@ ler_entrada_ins() {
             cop_conf
             cop_extra
             selec_greeter
+            instalar_yay
+            instalar_pywal
             habilitar_iniciar_dm
             break
         elif [ $tipo_instalacao == p ]; then
@@ -69,11 +71,13 @@ done
 }
 
 instalar_yay() {
-    dest_dir="$HOME/.local/src/yay"
-    mkdir -p "$dest_dir"
-    git clone https://aur.archlinux.org/yay.git "$dest_dir"
-    cd "$dest_dir" || exit 1
+    git clone https://aur.archlinux.org/yay.git "$DEST_DIR/yay"
+    cd "$DEST_DIR/yay" || exit 1
     makepkg -si
+}
+
+instalar_pywal() {
+    yay -S --noconfirm pywal
 }
 
 criar_dir() {
@@ -87,7 +91,7 @@ cop_conf() {
 }
 
 cop_extra() {
-    mkdir -p $HOMW/.config
+    mkdir -p $HOME/.config
     cp styled $HOME/.local/bin/
     cp picom.conf $HOME/.config/
     cp xbindkeys $HOME/.xbindkeys
