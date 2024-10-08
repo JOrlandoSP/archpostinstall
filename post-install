@@ -4,6 +4,7 @@ tipo_instalacao=""
 DEST_DIR="$HOME/.local/src"
 PACOTES_BASE="libxft libxinerama lightdm-gtk-greeter"
 PACOTES_EXTRA="ttf-jetbrains-mono ttf-nerd-fonts-symbols noto-fonts-emoji pipewire brightnessctl picom xwallpaper scrot xclip xdotool"
+PACOTES_INSTALADOS=""
 
 REPOS=(
 	"http://git.suckless.org/dwm"
@@ -35,6 +36,7 @@ ler_entrada_ins() {
             instalar_yay
             instalar_pywal
             habilitar_iniciar_dm
+            resumo_instalacao
             break
         elif [ $tipo_instalacao == p ]; then
             echo "Instalação padrão"
@@ -45,6 +47,7 @@ ler_entrada_ins() {
             cop_conf
             selec_greeter
             habilitar_iniciar_dm
+            resumo_instalacao
             break
         else	
             echo "Tipo inválido"
@@ -115,6 +118,16 @@ pacotes_avulsos() {
     if [[ -n "$pacotes_extras" ]]; then
         instalar_pacotes "$pacotes_extras"
     fi
+}
+
+
+resumo_instalacao() {
+    tipo="$1"
+    echo ""
+    echo "===== Resumo da Instalação ====="
+    echo "Tipo de instalação: $tipo"
+    echo "Pacotes instalados: $PACOTES_INSTALADOS"
+    echo "================================"
 }
 
 
