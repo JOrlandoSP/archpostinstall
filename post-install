@@ -36,8 +36,8 @@ ler_entrada_ins() {
             selec_greeter
             instalar_yay
             instalar_pywal
-            habilitar_iniciar_dm
             resumo_instalacao "Customizada"
+            habilitar_iniciar_dm
             break
         elif [ $tipo_instalacao == p ]; then
             echo "Instalação padrão"
@@ -47,8 +47,8 @@ ler_entrada_ins() {
             clonagem_repos "${REPOS[@]}"
             cop_conf
             selec_greeter
-            habilitar_iniciar_dm
             resumo_instalacao "Padrão"
+            habilitar_iniciar_dm
             break
         else	
             echo "Tipo inválido"
