@@ -61,6 +61,7 @@ instalar_pacotes(){
     sudo pacman -Suy
     echo "Instalando $pacotes"
     sudo pacman -S --noconfirm $pacotes
+    PACOTES_INSTALADOS="$PACOTES_INSTALADOS $pacotes"
 }
 
 clonagem_repos() {
@@ -79,10 +80,12 @@ instalar_yay() {
     git clone https://aur.archlinux.org/yay.git "$DEST_DIR/yay"
     cd "$DEST_DIR/yay" || exit 1
     makepkg -si
+    PACOTES_INSTALADOS="$PACOTES_INSTALADOS yay"
 }
 
 instalar_pywal() {
     yay -S --noconfirm pywal
+    PACOTES_INSTALADOS="$PACOTES_INSTALADOS pywal"
 }
 
 criar_dir() {
@@ -128,6 +131,13 @@ resumo_instalacao() {
     echo "Tipo de instalação: $tipo"
     echo "Pacotes instalados: $PACOTES_INSTALADOS"
     echo "================================"
+
+        # Salvando no arquivo de resumo
+    echo "===== Resumo da Instalação =====" > "$RESUMO_ARQUIVO"
+    echo "Tipo de instalação: $tipo" >> "$RESUMO_ARQUIVO"
+    echo "Pacotes instalados: $PACOTES_INSTALADOS" >> "$RESUMO_ARQUIVO"
+    echo "================================" >> "$RESUMO_ARQUIVO"
+    echo "Resumo salvo em: $RESUMO_ARQUIVO"
 }
 
 
