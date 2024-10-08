@@ -25,6 +25,7 @@ ler_entrada_ins() {
         read -p "Que tipo de instalação deseja realizar? / (Digite C para Customizar e P para padrão)" tipo_instalacao
         if [[ "${tipo_instalacao,,}" == "c" ]]; then
             echo "Instalação customizada"
+            pacotes_avulsos
             criar_dir
             instalar_pacotes "$PACOTES_BASE $PACOTES_EXTRA"
             clonagem_repos "${REPOS_CUSTOM[@]}"
@@ -37,6 +38,7 @@ ler_entrada_ins() {
             break
         elif [ $tipo_instalacao == p ]; then
             echo "Instalação padrão"
+            pacotes_avulsos
             criar_dir
             instalar_pacotes "$PACOTES_BASE"
             clonagem_repos "${REPOS[@]}"
@@ -108,6 +110,12 @@ habilitar_iniciar_dm() {
     sudo systemctl start lightdm
 }
 
+pacotes_avulsos() {
+    read -p "Deseja instalar pacotes avulsos? (Digite os nomes separados por espaço ou deixe vazio para pular): " pacotes_extras
+    if [[ -n "$pacotes_extras" ]]; then
+        instalar_pacotes "$pacotes_extras"
+    fi
+}
 
 
 ler_entrada_ins
